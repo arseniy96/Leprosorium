@@ -10,6 +10,18 @@
 <hr>
 <br>
 <h4>Comments:</h4>
+<br>
+
+<% @comments.each do |com| %>
+  <p>
+  <%= com['content'] %>
+  </p>
+  <p>
+    <span style="font-size: 75%; color: #999">Added at <%= com['created_date'] %></span>
+  </p>
+  <hr>
+<% end %>
+
 <form action="/comments/<%= @row['id'] %>" method="POST" role="form">
 
   <div class="form-group">
@@ -18,4 +30,5 @@
 
   <button type="submit" class="btn btn-primary">YARRR!</button>
 </form>
+
 </body>

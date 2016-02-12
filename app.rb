@@ -19,7 +19,7 @@ configure do
 end
 
 get '/' do
-  @results = @db.execute 'select * from Posts order by id desc;'
+  @results = @db.execute 'select * from Posts order by id desc'
 	erb :index
 end
 
@@ -38,6 +38,9 @@ post '/new' do
   end
 end
 
-get '/comments/:id' do
-  erb "Hello world"
+get '/comments/:post_id' do
+  post_id = params[:post_id]
+	@results = @db.execute 'select * from Posts where id = ?', [post_id]
+  @row = @results[0]
+  erb :comments
 end

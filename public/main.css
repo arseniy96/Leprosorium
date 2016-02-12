@@ -1,0 +1,7 @@
+body {
+    font-family: Georgia;
+}
+
+.form-group .form-control {
+    width: 80%;
+}

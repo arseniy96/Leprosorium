@@ -37,3 +37,7 @@ post '/new' do
  		redirect to '/'
   end
 end
+
+get '/comments/:id' do
+  erb "Hello world"
+end

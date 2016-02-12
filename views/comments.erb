@@ -1,10 +1,21 @@
+<body style="font-family: Georgia;">
 <h4>Post details</h4>
-<% @results.each do |post| %>
-    <p>
-      <%= @row['content'] %>
-      <br>
-      <br>
-      Added at <%= @row['created_date'] %>
-    </p>
-    <hr>
-<% end %>
+
+<p>
+  <%= @row['content'] %>
+  <br>
+  <br>
+  Added at <%= @row['created_date'] %>
+</p>
+<hr>
+<br>
+<h4>Comments:</h4>
+<form action="/comments/<%= @row['id'] %>" method="POST" role="form">
+
+  <div class="form-group">
+    <textarea class="form-control" rows="4" name="content" placeholder="Напиши комментарий!"></textarea>
+  </div>
+
+  <button type="submit" class="btn btn-primary">YARRR!</button>
+</form>
+</body>

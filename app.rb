@@ -40,10 +40,13 @@ get '/new' do
 end
 
 post '/new' do
-	content = params[:content]
-  login = params[:login]
-  if content.length == 0
+	@content = params[:content]
+  @login = params[:login]
+  if @content.length == 0
 		@error = 'Введите текст'
+    return erb :new
+  elsif @login.length == 0
+    @error = 'Ведите логин'
     return erb :new
   else
     @db.execute 'insert into Posts(login, content, created_date) values (?, ?, datetime())', [login, content]
@@ -68,7 +71,7 @@ post '/comments/:post_id' do
 
 	if content == ''
     @error = 'Введите текст комментария'
-		# erb :comments
+		erb :comments
   else
 		@db.execute 'insert into Comments(login, content, created_date, post_id) values (?, ?, datetime(), ?)',
                 [login,content, post_id]

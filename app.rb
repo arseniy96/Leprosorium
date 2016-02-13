@@ -17,11 +17,13 @@ configure do
   init_db
   @db.execute 'CREATE TABLE IF NOT EXISTS Posts(
 							"id" INTEGER PRIMARY KEY AUTOINCREMENT,
+							"login" TEXT,
 							"created_date" DATE,
 							"content" TEXT
 							)'
 	@db.execute 'CREATE TABLE IF NOT EXISTS Comments(
 							"id" INTEGER PRIMARY KEY AUTOINCREMENT,
+							"login" TEXT,
 							"created_date" DATE,
 							"content" TEXT,
 							"post_id" INTEGER
@@ -39,11 +41,12 @@ end
 
 post '/new' do
 	content = params[:content]
+  login = params[:login]
   if content.length == 0
 		@error = 'Введите текст'
     return erb :new
   else
-    @db.execute 'insert into Posts(content, created_date) values (?, datetime())', [content]
+    @db.execute 'insert into Posts(login, content, created_date) values (?, ?, datetime())', [login, content]
  		redirect to '/'
   end
 end
@@ -61,7 +64,14 @@ end
 post '/comments/:post_id' do
 	post_id = params[:post_id]
   content = params[:content]
+  login = params[:login]
 
-	@db.execute 'insert into Comments(content, created_date, post_id) values (?, datetime(), ?)', [content, post_id]
-  redirect to('/comments/'+post_id)
+	if content == ''
+    @error = 'Введите текст комментария'
+		# erb :comments
+  else
+		@db.execute 'insert into Comments(login, content, created_date, post_id) values (?, ?, datetime(), ?)',
+                [login,content, post_id]
+		redirect to('/comments/'+post_id)
+  end
 end
